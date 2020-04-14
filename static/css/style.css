@@ -1,0 +1,13 @@
+html {
+  font-size: 13px;
+}
+  body {
+    padding-top: 50px;
+  }
+.navbar-brand{
+    max-height: 50px;
+}
+.row{
+    min-height: 89vh;
+    min-width: 90vh;
+}
