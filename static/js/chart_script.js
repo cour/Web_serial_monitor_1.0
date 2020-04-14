@@ -14,7 +14,8 @@ $(document).ready(function() {
         return this.push(buffer);
     };
 
-    var upChart
+    var upChart;
+    var initSerial;
     var data = [];
     var g = new Dygraph(document.getElementById("data-container"), data,{
         drawPoints: true,
@@ -39,9 +40,8 @@ $(document).ready(function() {
     function chart(label){
         g.updateOptions({labels: label});
     };
-
-
-    function chartUpdate(){
+    
+    function initializeSerial(){
         $.get('/live-data', function(point) {
             data.pushMax(500,point);
             g.updateOptions({file: data});
@@ -49,13 +49,24 @@ $(document).ready(function() {
             if (2<point[0] && point[0]>2.5){
                 if (Object.keys(point).length >= 2){
                     chart(label(Object.keys(point).length));
+                    upChart = setInterval(chartUpdate, 30); //repeat function chartUpdate every 30ms
+                    clearInterval(initSerial);
+                    
                 }
             }
+        });         
+    };
+
+
+    function chartUpdate(){
+        $.get('/live-data', function(point) {
+            data.pushMax(500,point);
+            g.updateOptions({file: data});
         }); 
     };
 
     $('#record').on('click', function(event) {  
-        upChart = setInterval(chartUpdate, 30); //repeat function chartUpdate every 30ms
+        initSerial = setInterval(initializeSerial,30);
     });
 
     $('#stop_record').on('click', function(event) {
