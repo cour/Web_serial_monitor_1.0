@@ -29,7 +29,7 @@ $(document).ready(function() {
     });
 
     function label(x){
-        var label = ['yo']
+        var label = ['Time (s)']
         for (i=1; i<x; i++){
             label.push('Serie'+String(i));
         }
