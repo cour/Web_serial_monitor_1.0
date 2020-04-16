@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var stop = true
     var start = false
+    var save = false
 
     function stop_recording(){ 
         $.post('/serial_stop',{
@@ -9,7 +10,7 @@ $(document).ready(function(){
 
     }
 
-    function start_recording() {
+    function start_recording(save) {
 
         var Baudrate = document.getElementById("baudrate");
         var strBaudrate = Baudrate.options[Baudrate.selectedIndex].text;
@@ -20,6 +21,7 @@ $(document).ready(function(){
         $.post('/serial_start',{
             Baudrate: strBaudrate,
             Comport: strCom,
+            save: save.toString(),
         });
     }
 
@@ -27,7 +29,11 @@ $(document).ready(function(){
         event.preventDefault(); // To prevent following the link (optional)
         document.getElementById("record").disabled = true;
         document.getElementById("stop_record").disabled = false;
-        start_recording();
+        if (document.getElementById("save_to_csv").checked == true){
+            save = true;
+        };
+        start_recording(save);
+        document.getElementById("save_to_csv").disabled = true;
 
     });
     $('#stop_record').on('click', function(event) {
@@ -35,6 +41,7 @@ $(document).ready(function(){
         stop_recording();
         document.getElementById("record").disabled = false;
         document.getElementById("stop_record").disabled = true;
+        document.getElementById("save_to_csv").disabled = false;
 
     });
 

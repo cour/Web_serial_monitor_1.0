@@ -9,6 +9,8 @@ void loop() {
   sensorValue = analogRead(A0);
   // map it to the range of the analog out:
   outputValue = map(sensorValue, 0, 1023, 0, 255);
+  Serial.print(200);
+  Serial.print(',');
   Serial.println(sensorValue);
   delay(2);
 }

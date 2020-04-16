@@ -13,12 +13,14 @@ $(document).ready(function(){
             });
             $('#port').html(html_code);
             document.getElementById("refresh_ports").disabled = false;
+            document.getElementById("refresh_spin").className = "";
         });
     }
 
     $('#refresh_ports').on('click', function(event) {
         event.preventDefault(); // To prevent following the link (optional)
         document.getElementById("refresh_ports").disabled = true;
+        document.getElementById("refresh_spin").className = "spinner-border spinner-border-sm";
         load_serial_ports();
     });
 });

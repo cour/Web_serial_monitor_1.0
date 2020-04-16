@@ -1,5 +1,6 @@
 import json
-from time import time
+import csv
+import time
 from flask import Flask, render_template, make_response, request
 from threading import Thread, Lock
 import serial
@@ -24,6 +25,8 @@ class Serie(Thread):
         global isRecording
         global stop_Recording
         global listByte
+        global filename
+        global file
         while True:
             with data_lock:
                 ser_bytes = self.ser.readline().strip().decode("utf-8", 'ignore').split(',') # Read all sent bytes and store it into a list
@@ -40,7 +43,7 @@ class Serie(Thread):
 
 class server(Thread):
     def run(self):
-        app.run(debug=False, host='127.0.0.1', port=6031)
+        app.run(debug=False, host='127.0.0.1', port=6040)
 
 @app.route('/')
 def main_page():
@@ -50,11 +53,14 @@ def main_page():
 def live_chart():
     global byte
     global listByte
+    global save_csv
     data = []
-    data.append(time()-startTime)
+    data.append(time.time()-startTime)
     for i in range(len(listByte)):
         data.append(listByte[i])
-    print(listByte)
+    if save_csv == True:
+        writer = csv.writer(file, delimiter=",")
+        writer.writerow(data)
     response = make_response(json.dumps(data))
     response.content_type = 'application/json'
     return response
@@ -69,22 +75,32 @@ def listPorts():
     response.content_type = 'application/json'
     return response
 
+
 @app.route('/serial_start', methods=["POST", "GET"])
 def start_recording():
+    global save_csv
+    save_csv = False
     global Baudrate
     global Comport
     global startTime
     global stop_Recording
+    global filename
     stop_Recording = False
     global isRecording
+    global file
     isRecording = False
     if request.method == "POST":
         Baudrate = request.form["Baudrate"]
         Comport = request.form["Comport"]
+        save = request.form["save"]
         if isRecording == False:
+            if save == "true":
+                filename = time.strftime("%Y%m%d-%H%M%S")
+                file = open("recorded/"+filename+".txt", "w")
+                save_csv = True
             isRecording = True
             thread_serial = Serie(Comport, int(Baudrate))
-            startTime = time()
+            startTime = time.time()
             thread_serial.start()
             print("Thread serie started")
         return "starting"
@@ -92,10 +108,14 @@ def start_recording():
 @app.route('/serial_stop', methods=["POST", "GET"])
 def stop_recording():
     global stop_Recording
+    global save_csv
     if request.method == "POST":
         stop = request.form["STOP"]
         if stop == 'STOP':
             stop_Recording = True
+            if save_csv == True:
+                save_csv = False
+                file.close()
             print("stopping thread serie")
         return "stopping"
 
