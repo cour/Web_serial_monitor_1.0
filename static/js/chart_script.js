@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    
 
     Array.prototype.pushMax = function(max, value) {
         var buffer = [];
@@ -14,6 +15,7 @@ $(document).ready(function() {
         return this.push(buffer);
     };
 
+    var serieLabel;
     var upChart;
     var initSerial;
     var data = [];
@@ -26,19 +28,23 @@ $(document).ready(function() {
         xlabel: 'Time (s)',
         strokeWidth: 1.5,
         valueRange: [0, 1030], //low,high pour auto
-        labels: ['Time (s)']
+        labels: ['Time (s)'],
+        visibility: [true]
     });
 
     function label(x){ // create the labels given a certain amonunt of data and then return it
         var label = ['Time (s)']
-        for (i=1; i<x; i++){
+        var visibility = [];
+        for (var i=1; i<x; i++){
             label.push('Serie'+String(i));
+            visibility.push(true);
         }
-        return label;        
+        return [label,visibility];        
     }
 
     function chart(label){ //update the chart label
-        g.updateOptions({labels: label});
+        g.updateOptions({labels: label[0]});
+        g.updateOptions({visibility: label[1]});
     };
 
     function initializeSerial(){ // Function to wait for the serial port to boot and then get the size of the sent package for the later labeling functions
@@ -48,7 +54,10 @@ $(document).ready(function() {
 
             if (2<point[0] && point[0]>2.5){ // wait for the serial port to boot, it takes around 1.5s so we wait a bit more to be sure (2-2.5s)
                 if (Object.keys(point).length >= 2){
-                    chart(label(Object.keys(point).length));
+                    serieLabel = label(Object.keys(point).length);
+                    chart(serieLabel);
+                    addSerieCheckBox(serieLabel[0]);
+                    serieSelect();
                     upChart = setInterval(chartUpdate, 30); //repeat function chartUpdate every 30ms
                     clearInterval(initSerial);
 
@@ -63,6 +72,40 @@ $(document).ready(function() {
             g.updateOptions({file: data});
         }); 
     };
+
+    function addSerieCheckBox(serieLabel) {
+        $("#serialSelect").empty();
+        for(count = 1; count<serieLabel.length; count++)
+        {
+
+            $("#serialSelect").append('<div class="form-check form-check-inline"> <input class="form-check-input" type="checkbox" id="' + serieLabel[count] +'" checked>  <label class="form-check-label">' + serieLabel[count] +'</label></div>');
+        }
+    }
+    function serieSelect(){
+        // get reference to element containing toppings checkboxes
+        var el = document.getElementById('serialSelect');
+
+        // get reference to input elements in toppings container element
+        var check = el.getElementsByTagName('input');
+
+        // assign function to onclick property of each checkbox
+        for (var i=0, len=check.length; i<len; i++) {
+            if ( check[i].type === 'checkbox' ) {
+                check[i].onclick = function() {
+                    var visibility = [];
+                    for(var j = 0; j<check.length;j++){
+                        if (check[j].checked == true){
+                            visibility.push(true);
+                        }
+                        else{
+                            visibility.push(false);
+                        }
+                    }
+                    g.updateOptions({visibility: visibility});
+                }
+            }
+        }
+    }
 
     $('#record').on('click', function(event) { // when record button pressed then initialize serial port and start reading
         initSerial = setInterval(initializeSerial,30);

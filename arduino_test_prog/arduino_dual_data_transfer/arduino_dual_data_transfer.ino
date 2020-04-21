@@ -11,6 +11,8 @@ void loop() {
   outputValue = map(sensorValue, 0, 1023, 0, 255);
   Serial.print(200);
   Serial.print(',');
+    Serial.print(400);
+  Serial.print(',');
   Serial.println(sensorValue);
   delay(2);
 }

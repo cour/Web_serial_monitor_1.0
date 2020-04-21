@@ -39,15 +39,22 @@ class Serie(Thread):
             if isRecording == True & stop_Recording == True: # Stop le thread of the serial connection
                 stop_Recording = False
                 isRecording = False
-                break
+                self.ser.close()
+                return
 
+        
 class server(Thread):
     def run(self):
-        app.run(debug=False, host='127.0.0.1', port=6040)
+        app.run(debug=False, host='127.0.0.1', port=6119)
 
 @app.route('/')
 def main_page():
     return render_template('index.html', data='test')
+
+
+@app.route('/serial-plotter.html')
+def full_graph_page():
+    return render_template('serial-plotter.html', data='test')
 
 @app.route('/live-data')
 def live_chart():
@@ -88,6 +95,7 @@ def start_recording():
     stop_Recording = False
     global isRecording
     global file
+    global thread_serial
     isRecording = False
     if request.method == "POST":
         Baudrate = request.form["Baudrate"]
