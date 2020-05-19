@@ -42,11 +42,6 @@ class Serie(Thread):
                 self.ser.close()
                 return
 
-        
-class server(Thread):
-    def run(self):
-        app.run(debug=False, host='127.0.0.1', port=6119)
-
 @app.route('/')
 def main_page():
     return render_template('index.html', data='test')
@@ -61,6 +56,8 @@ def live_chart():
     global byte
     global listByte
     global save_csv
+    global isRecording
+    global stop_Recording
     data = []
     data.append(time.time()-startTime)
     for i in range(len(listByte)):
@@ -71,6 +68,7 @@ def live_chart():
     response = make_response(json.dumps(data))
     response.content_type = 'application/json'
     return response
+
 
 @app.route('/serial_ports')
 def listPorts():
@@ -107,6 +105,7 @@ def start_recording():
                 file = open("recorded/"+filename+".txt", "w")
                 save_csv = True
             isRecording = True
+            stop_Recording = False
             thread_serial = Serie(Comport, int(Baudrate))
             startTime = time.time()
             thread_serial.start()
@@ -126,6 +125,10 @@ def stop_recording():
                 file.close()
             print("stopping thread serie")
         return "stopping"
+
+class server(Thread):
+    def run(self):
+        app.run(debug=False, host='127.0.0.1', port=6198)
 
 if __name__ == '__main__':
     thread_server = server()

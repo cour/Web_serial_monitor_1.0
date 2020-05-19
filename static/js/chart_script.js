@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    
+
 
     Array.prototype.pushMax = function(max, value) {
         var buffer = [];
@@ -15,10 +15,13 @@ $(document).ready(function() {
         return this.push(buffer);
     };
 
+
     var serieLabel;
     var upChart;
     var initSerial;
     var data = [];
+
+
     var g = new Dygraph(document.getElementById("data-container"), data,{
         drawPoints: true,
         showRoller: true,
@@ -49,7 +52,7 @@ $(document).ready(function() {
 
     function initializeSerial(){ // Function to wait for the serial port to boot and then get the size of the sent package for the later labeling functions
         $.get('/live-data', function(point) {
-            data.pushMax(500,point);
+            data.pushMax(250,point);
             g.updateOptions({file: data});
 
             if (2<point[0] && point[0]>2.5){ // wait for the serial port to boot, it takes around 1.5s so we wait a bit more to be sure (2-2.5s)
@@ -58,9 +61,7 @@ $(document).ready(function() {
                     chart(serieLabel);
                     addSerieCheckBox(serieLabel[0]);
                     serieSelect();
-                    upChart = setInterval(chartUpdate, 30); //repeat function chartUpdate every 30ms
                     clearInterval(initSerial);
-
                 }
             }
         });         
@@ -68,7 +69,8 @@ $(document).ready(function() {
 
     function chartUpdate(){ // update the chart display 
         $.get('/live-data', function(point) {
-            data.pushMax(500,point);
+            data.pushMax(256,point);
+            //$("#serialMonitor").append("<option>"+point+"</option>");
             g.updateOptions({file: data});
         }); 
     };
@@ -81,6 +83,7 @@ $(document).ready(function() {
             $("#serialSelect").append('<div class="form-check form-check-inline"> <input class="form-check-input" type="checkbox" id="' + serieLabel[count] +'" checked>  <label class="form-check-label">' + serieLabel[count] +'</label></div>');
         }
     }
+
     function serieSelect(){
         // get reference to element containing toppings checkboxes
         var el = document.getElementById('serialSelect');
@@ -107,14 +110,15 @@ $(document).ready(function() {
         }
     }
 
+
+
     $('#record').on('click', function(event) { // when record button pressed then initialize serial port and start reading
-        initSerial = setInterval(initializeSerial,30);
+        data = [];
+        initSerial = setInterval(initializeSerial,100);
+        upChart = setInterval(chartUpdate, 50); //repeat function chartUpdate every 30ms
     });
 
     $('#stop_record').on('click', function(event) { //when the stop button is pressed stop the recording and chart update
         clearInterval(upChart);
-        data = [];
     });
-
 });
-
