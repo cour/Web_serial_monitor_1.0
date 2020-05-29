@@ -70,7 +70,7 @@ $(document).ready(function() {
     function chartUpdate(){ // update the chart display 
         $.get('/live-data', function(point) {
             data.pushMax(256,point);
-            //$("#serialMonitor").append("<option>"+point+"</option>");
+            $("#serialMonitor").append("<option>"+point+"</option>");
             g.updateOptions({file: data});
         }); 
     };
@@ -79,8 +79,7 @@ $(document).ready(function() {
         $("#serialSelect").empty();
         for(count = 1; count<serieLabel.length; count++)
         {
-
-            $("#serialSelect").append('<div class="form-check form-check-inline"> <input class="form-check-input" type="checkbox" id="' + serieLabel[count] +'" checked>  <label class="form-check-label">' + serieLabel[count] +'</label></div>');
+            $("#serialSelect").append('<div class="custom-control custom-checkbox custom-control-inline"> <input type="checkbox" class="custom-control-input" id="' + serieLabel[count] +'" checked> <label class="custom-control-label"for="'+  serieLabel[count] +'">' + serieLabel[count] +'</label></div>');
         }
     }
 

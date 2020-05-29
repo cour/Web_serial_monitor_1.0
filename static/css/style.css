@@ -1,3 +1,16 @@
+                                    
+/* Range Slider css */
+@import "http://propeller.in/components/range-slider/css/nouislider.min.css";
+
+/*Propeller textfield css*/
+@import "http://propeller.in/components/textfield/css/textfield.css";
+
+/*Propeller checkbox css*/
+@import "http://propeller.in/components/checkbox/css/checkbox.css";
+
+/*Propeller Range Slider css*/
+@import "http://propeller.in/components/range-slider/css/range-slider.css";
+
 html {
   font-size: 13px;
 }
