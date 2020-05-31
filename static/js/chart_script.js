@@ -71,6 +71,8 @@ $(document).ready(function() {
         $.get('/live-data', function(point) {
             data.pushMax(256,point);
             $("#serialMonitor").append("<option>"+point+"</option>");
+            var elmnt = document.getElementById("serialMonitor");
+            elmnt.scrollTop = elmnt.scrollHeight;
             g.updateOptions({file: data});
         }); 
     };

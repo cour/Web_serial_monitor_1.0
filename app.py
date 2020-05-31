@@ -128,7 +128,7 @@ def stop_recording():
 
 class server(Thread):
     def run(self):
-        app.run(debug=False, host='127.0.0.1', port=6209)
+        app.run(debug=False, host='127.0.0.1', port=6212)
 
 if __name__ == '__main__':
     thread_server = server()

@@ -65,8 +65,6 @@
                                 <option value="9600">9600</option>
                                 <option value="115200">115200</option>
                             </select>
-
-
                             <a>
                                 <label style="padding-top: 10px;">Serial port:</label>
                                 <div class="input-group mb-3">
@@ -79,32 +77,47 @@
                                         <option value="">Loading... </option>
                                     </select>
                                 </div>
-                            </a>
-
+                            </a> 
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="save_to_csv">
                                 <label class="custom-control-label" for="save_to_csv">Save to csv</label>
                             </div>
-                            
+
                             <div class="flex-container" style=" padding-top: 10px;">
 
                                 <button type="button" id="record" class="btn btn-success">start recording </button>
                                 <button type="button" id="stop_record" class="btn btn-danger" disabled>STOP</button>
                             </div>
-
-                            <label style=" padding-top: 15px;">Monitor:</label>
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Message to send" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button">Send</button>
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    <div style="padding-top: 15px">
+                        <div class="card">
+                            <div class="card-header">
+                                Serial Monitor
                             </div>
-                            <select multiple class="form-control" size="5" id="serialMonitor">
-                                <option>Hello world</option>
-                            </select>
-
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-row align-items-center">
+                                        <label >Y range :</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control mb-2" id="minY" placeholder="Min">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="input-group mb-2">
+                                                <input type="text" class="form-control" id="maxY" placeholder="Max">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form>
+                                    <div class="form-row align-items-center">
+                                        <label >Display frequency (ms):</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control mb-2" id="minY" placeholder="Min">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -113,7 +126,7 @@
                 <!------- Colone droite------->
                 <div class="col-12 col-md-8 col-lg-9">
 
-                    <div class="card" style="width: 100%; height: 80%;">
+                    <div class="card" style="width: 100%; height: 60%;">
 
                         <div class="card-header">
                             Serial plotter
@@ -121,20 +134,34 @@
 
                         <div class="card-body">
 
-                            <div   id="parent"  style="width: 100%; height: 80%;">
+                            <div   id="parent"  style="width: 100%; height: 90%;">
                                 <div id="data-container" style="width: 100%; height: 100%;"></div>
                             </div>
 
                             <div class="container-fluid" id="serialSelect">
                             </div>
-
-
-                            <div class="col-sm container-fluid">
-                                <div id="pmd-slider-step" class="pmd-range-slider"></div>
+                        </div>
+                    </div>
+                    <div style="padding-top: 15px">
+                        <div class="card">
+                            <div class="card-header">
+                                Serial Monitor
                             </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Message to send" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <select multiple class="form-control" style="resize: both;" size="5;" id="serialMonitor">
+                                        <option>Hello world</option>
+                                    </select>
+                                </div>
 
-                            <div class="col-sm container-fluid">
-                                <div id="pmd-slider-range"  class="pmd-range-slider"></div>
                             </div>
                         </div>
                     </div>
