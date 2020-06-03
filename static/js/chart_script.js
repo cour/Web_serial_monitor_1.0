@@ -70,6 +70,7 @@ $(document).ready(function() {
     function chartUpdate(){ // update the chart display 
         $.get('/live-data', function(point) {
             data.pushMax(256,point);
+
             $("#serialMonitor").append("<option>"+point+"</option>");
             var elmnt = document.getElementById("serialMonitor");
             elmnt.scrollTop = elmnt.scrollHeight;
@@ -112,14 +113,23 @@ $(document).ready(function() {
     }
 
 
+    document.getElementById('refreshYrange').onclick = function() { 
+        var Ymin = document.getElementById("Ymin").value;
+        var Ymax = document.getElementById("Ymax").value;
+        var range = [Ymin,Ymax];
+        g.updateOptions({valueRange: range});
+    };
 
-    $('#record').on('click', function(event) { // when record button pressed then initialize serial port and start reading
+
+
+    document.getElementById('record').onclick = function() { // when record button pressed then initialize serial port and start reading
+        console.log("yo"); 
         data = [];
         initSerial = setInterval(initializeSerial,100);
         upChart = setInterval(chartUpdate, 50); //repeat function chartUpdate every 30ms
-    });
+    };
 
-    $('#stop_record').on('click', function(event) { //when the stop button is pressed stop the recording and chart update
+    document.getElementById('stop_record').onclick = function() { //when the stop button is pressed stop the recording and chart update
         clearInterval(upChart);
-    });
+    };
 });

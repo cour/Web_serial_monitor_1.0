@@ -12,7 +12,6 @@
         <!-- Info dygraph ---->
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
 
-
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
@@ -48,9 +47,7 @@
 
         <!-- Partition de la page  en deux colonnes-->
         <div class="container-fluid" style="width:100%; height:100%; padding-top: 1vh;">
-
             <div class="row" style="width:100%; height:100%;">
-
                 <!------- Colone gauche gauche------->
                 <div class="col-12 col-md-4 col-lg 3" >
                     <div class="card">
@@ -58,7 +55,6 @@
                             Serial paprameters
                         </div>
                         <div class="card-body">
-
                             <label>Baudrate:</label>
                             <select class="form-control input-sm" name="baudrate" id="baudrate">
                                 <option value="">Select... </option>
@@ -82,7 +78,6 @@
                                 <input type="checkbox" class="custom-control-input" id="save_to_csv">
                                 <label class="custom-control-label" for="save_to_csv">Save to csv</label>
                             </div>
-
                             <div class="flex-container" style=" padding-top: 10px;">
 
                                 <button type="button" id="record" class="btn btn-success">start recording </button>
@@ -100,20 +95,26 @@
                                     <div class="form-row align-items-center">
                                         <label >Y range :</label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control mb-2" id="minY" placeholder="Min">
+                                            <input type="text" class="form-control sm-2" id="Ymin" placeholder="Min">
                                         </div>
                                         <div class="col-sm-3">
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" id="maxY" placeholder="Max">
+                                            <div class="input-group sm-2">
+                                                <input type="text" class="form-control" id="Ymax" placeholder="Max">
                                             </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button type="button" class="btn btn-primary sm-2" id="refreshYrange">Write</button>
                                         </div>
                                     </div>
                                 </form>
                                 <form>
-                                    <div class="form-row align-items-center">
-                                        <label >Display frequency (ms):</label>
+                                    <div class="form-row align-items-center" style="padding-top: 10px;">
+                                        <label >Refresh freq (ms):</label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control mb-2" id="minY" placeholder="Min">
+                                            <input type="text" class="form-control sm-2" id="freq" placeholder="100">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button type="button" class="btn btn-primary sm-2" id="writeFreq">Write</button>
                                         </div>
                                     </div>
                                 </form>
@@ -170,8 +171,6 @@
         </div>
 
 
-
-
         <footer>
             <p>&copy; William Lopez 12/04/2020</p>
         </footer>
@@ -182,10 +181,6 @@
         <script src="/static/js/chart_script.js"></script>
         <script src="/static/js/refresh_port.js"></script>
         <script src="/static/js/recording.js"></script>
-        <script src="/static/js/sliders.js"></script>
-
-        <script src="http://propeller.in/components/range-slider/js/wNumb.js"></script>
-        <script src="http://propeller.in/components/range-slider/js/nouislider.js"></script>
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
 
